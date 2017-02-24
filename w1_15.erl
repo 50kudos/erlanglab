@@ -1,5 +1,8 @@
--module(third).
--export([maxThree/3,howManyEqual/3,eXOR/2]).
+
+% Variables and pattern matching
+
+-module(w1_15).
+-export([maxThree/3, howManyEqual/3, eXOR/2]).
 
 eXOR(X,Y) when is_boolean(X) andalso is_boolean(Y) ->
     case {X,Y} of

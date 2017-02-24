@@ -1,8 +1,8 @@
--module(asm).
+-module(w1_asm).
 -export([perimeter/1, area/1, areaEnclose/1, perimeterEnclose/1, bits/1]).
 
 %% Shapes
-% I am so sure about the requirements, and assume:
+% I am NOT so sure about the requirements, and assume:
 %   1. By "smallest enclosing rectangle", means both[0]:
 %      - Minimum-area enclosing rectangle
 %      - Minimum-perimeter enclosing rectangle
