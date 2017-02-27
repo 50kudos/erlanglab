@@ -1,9 +1,14 @@
 -module(w2_conso).
--export([join/2, member/2, merge_sort/1, quick_sort/1, insertion_sort/1, permute/1]).
+-export([concat/1, join/2, member/2, merge_sort/1, quick_sort/1, insertion_sort/1, permute/1]).
 
 join([],R) -> R;
 join([L|Ls],R) ->
     [L | join(Ls,R)].
+
+
+concat([]) -> [];
+concat([H|T]) -> join(H, concat(T)).
+
 
 member(_,[]) -> false;
 member(M,[M|_]) -> true;
