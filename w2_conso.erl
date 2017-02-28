@@ -12,11 +12,10 @@ concat([H|T]) -> join(H, concat(T)).
 
 member(_,[]) -> false;
 member(M,[M|_]) -> true;
-member(M,[M|_]) -> true;
 member(M,[_L|Ls]) ->
     member(M,Ls).
 
-
+merge_sort([]) -> [];
 merge_sort([A]) -> [A];
 merge_sort(A) ->
     M = length(A) div 2,
