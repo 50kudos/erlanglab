@@ -1,10 +1,9 @@
 -module(w2_conso).
--export([concat/1, join/2, member/2, merge_sort/1, quick_sort/1, insertion_sort/1, permute/1]).
+-export([concat/1, join/2, member/2, merge_sort/1, quick_sort/1, insertion_sort/1, perms/1]).
 
 join([],R) -> R;
 join([L|Ls],R) ->
     [L | join(Ls,R)].
-
 
 concat([]) -> [];
 concat([H|T]) -> join(H, concat(T)).
@@ -14,6 +13,7 @@ member(_,[]) -> false;
 member(M,[M|_]) -> true;
 member(M,[_L|Ls]) ->
     member(M,Ls).
+
 
 merge_sort([]) -> [];
 merge_sort([A]) -> [A];
@@ -45,16 +45,26 @@ insert(X,[H|_T]=A) when X =< H -> [X|A];
 insert(X,[H|T]) when X > H -> [H | insert(X,T)].
 
 
-permute(L) -> lists:append(perms(L)).
-perms([]) -> [[]];
-perms(L) -> perms(L, L).
+% Rotation position range is from 0 to (length-2).
+perms([]) -> [];
+perms(L) -> perms(L, 0, permute(L,L,0,[])).
+perms(L, I, ACC) when I > length(L) - 2 -> ACC;
+perms(L, I, ACC) ->
+    Result = lists:foldr(fun(X,C) -> permute(X,X,I+1,[]) ++ C end, [], ACC),
+    perms(L, I+1, Result).
 
-perms([],_) -> [];
-perms([I|Is], L0) ->
-    T = perms(L0--[I]),
-    [cross(I, T) | perms(Is, L0)].
+permute(L, L0, I, ACC) when I > length(L) - 2 -> [L0|ACC];
+permute(L, L0, I, ACC) ->
+    case R = rotate(L, I) of
+        L0 -> [L0|ACC];
+        _ -> permute(R, L0, I, [R|ACC])
+    end.
 
-cross(_X, []) -> [];
-cross(X, [[]]) -> [[X]];
-cross(X, [[H]|T]) -> [[X|H] | cross(X, T)];
-cross(X, [H|T]) -> [[X|H] | cross(X, T)].
+% Receive list and fixed position.
+% The fixed position remains while rotating lists.
+rotate([],_) -> [];
+rotate(L, 0) -> shiftr(L,L);
+rotate([H|T], F) -> [H | rotate(T, F-1)].
+
+shiftr([A|[]], L0) -> [A | L0--[A]];
+shiftr([_I|Is], L0) -> shiftr(Is, L0).
